@@ -1,20 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:student_management/view/admin/admin_staffs_list_screen.dart';
-import 'package:student_management/view/admin/admin_students_list_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:student_management/view/admin/register_user_page.dart';
 import 'package:student_management/constants/constants.dart';
-import 'package:student_management/view/login%20screen/login_screen.dart';
+import 'package:student_management/view/student/fees_history_screen.dart';
+import 'package:student_management/view/student/library_books.dart';
 
-class AdminDashScreen extends StatefulWidget {
-  const AdminDashScreen({super.key});
+import '../login screen/login_screen.dart';
+
+class StudentDashboad extends StatefulWidget {
+  const StudentDashboad({super.key});
 
   @override
-  State<AdminDashScreen> createState() => _AdminDashScreenState();
+  State<StudentDashboad> createState() => _StudentDashboadState();
 }
 
-class _AdminDashScreenState extends State<AdminDashScreen> {
+class _StudentDashboadState extends State<StudentDashboad> {
   int currentIndex = 0;
 
   tabSwitch(int index) {
@@ -24,8 +25,8 @@ class _AdminDashScreenState extends State<AdminDashScreen> {
   }
 
   final List<Widget> screens = [
-    const AdminStudentsListScreen(),
-    const AdminStaffsListScreen(),
+    FeesHistoryScreen(),
+    LibraryBooksScreen(),
   ];
 
   @override
@@ -117,17 +118,6 @@ class _AdminDashScreenState extends State<AdminDashScreen> {
         ),
       ),
       backgroundColor: Colors.black,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const RegisterUserPage()));
-        },
-        label: const Icon(Icons.add),
-        backgroundColor: Colors.yellow,
-      ),
       body: screens[currentIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -136,25 +126,25 @@ class _AdminDashScreenState extends State<AdminDashScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(60),
               color: lightBlack,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(offset: Offset(0, 4), color: Colors.black26)
               ]),
           child: GNav(
-            padding: EdgeInsets.all(16),
+             padding: EdgeInsets.all(16),
             gap: 18,
-            tabs: const [
+            tabs: [
               GButton(
-                icon: Icons.person,
+                icon: Icons.money,
                 iconSize: 35,
-                text: 'Students',
+                text: 'Fees',
                 textColor: Colors.yellow,
                 iconActiveColor: Colors.yellow,
                 iconColor: Colors.yellow,
               ),
               GButton(
-                icon: Icons.woman_2,
+                icon: Icons.library_books,
                 iconSize: 35,
-                text: 'Staffs',
+                text: 'Books',
                 textColor: Colors.yellow,
                 iconActiveColor: Colors.yellow,
                 iconColor: Colors.yellow,

@@ -1,31 +1,39 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:student_management/view/admin/admin_staffs_list_screen.dart';
-import 'package:student_management/view/admin/admin_students_list_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:student_management/view/admin/register_user_page.dart';
 import 'package:student_management/constants/constants.dart';
-import 'package:student_management/view/login%20screen/login_screen.dart';
+import 'package:student_management/view/staff/staff_student_list_screen.dart';
+import 'package:student_management/view/student/fees_history_screen.dart';
+import 'package:student_management/view/student/library_books.dart';
 
-class AdminDashScreen extends StatefulWidget {
-  const AdminDashScreen({super.key});
+import '../login screen/login_screen.dart';
+import 'staff_payement_screen.dart';
+
+class StaffDashboard extends StatefulWidget {
+  const StaffDashboard({super.key});
 
   @override
-  State<AdminDashScreen> createState() => _AdminDashScreenState();
+  State<StaffDashboard> createState() => _StaffDashboardState();
 }
 
-class _AdminDashScreenState extends State<AdminDashScreen> {
+class _StaffDashboardState extends State<StaffDashboard> {
   int currentIndex = 0;
 
+  // Make sure this list is within range and no out of bounds error occurs
   tabSwitch(int index) {
     setState(() {
-      currentIndex = index;
+      // Ensure the index is within the valid range
+      if (index >= 0 && index < screens.length) {
+        currentIndex = index;
+      }
     });
   }
 
   final List<Widget> screens = [
-    const AdminStudentsListScreen(),
-    const AdminStaffsListScreen(),
+    StaffStudentListScreen(),
+    LibraryBooksScreen(),
+    StaffPayementScreen(),
   ];
 
   @override
@@ -120,45 +128,51 @@ class _AdminDashScreenState extends State<AdminDashScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const RegisterUserPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RegisterUserPage()));
         },
-        label: const Icon(Icons.add),
+        label: Icon(Icons.add),
         backgroundColor: Colors.yellow,
       ),
-      body: screens[currentIndex],
+      body: screens[currentIndex], // This will be safe now
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(60),
               color: lightBlack,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(offset: Offset(0, 4), color: Colors.black26)
               ]),
           child: GNav(
             padding: EdgeInsets.all(16),
             gap: 18,
-            tabs: const [
+            tabs: [
               GButton(
                 icon: Icons.person,
-                iconSize: 35,
+                iconSize: 30,
                 text: 'Students',
                 textColor: Colors.yellow,
                 iconActiveColor: Colors.yellow,
                 iconColor: Colors.yellow,
               ),
               GButton(
-                icon: Icons.woman_2,
-                iconSize: 35,
-                text: 'Staffs',
+                icon: Icons.library_books,
+                iconSize: 30,
+                text: 'Library',
                 textColor: Colors.yellow,
                 iconActiveColor: Colors.yellow,
                 iconColor: Colors.yellow,
-              )
+              ),
+              GButton(
+                icon: Icons.money,
+                iconSize: 30,
+                text: 'Payment',
+                textColor: Colors.yellow,
+                iconActiveColor: Colors.yellow,
+                iconColor: Colors.yellow,
+              ),
             ],
             selectedIndex: currentIndex,
             onTabChange: tabSwitch,
